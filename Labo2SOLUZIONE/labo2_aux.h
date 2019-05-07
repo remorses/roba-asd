@@ -1,6 +1,6 @@
-#include <vector> 
+#include <vector>
 #include <iostream>
-#include <fstream> 
+#include <fstream>
 #include <stdexcept>
 
 using namespace std;

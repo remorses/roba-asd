@@ -6,160 +6,197 @@ const string menu = "\n\nSi hanno a disposizione 10 registri numerati da 0 a 9. 
 
 const int maxreg = 10;
 
-int main()
-{
-try {
-// Sperimentiamo che l'information hinding funziona: cosa succede se tento di accedere alle componenti interne di una struttura di tipo node, oppure di un elemento di una lista (che e' un puntatore a node)? Decommentate le seguenti linee di codice per convincervi che dal main non si puo' accedere alle componenti di una struct node. E' proprio quello che vogliamo! Abbiamo nascosto il dettaglio implementativo di come sono fatti i blocchetti delle liste! Possiamo solo manipolare le liste usando le funzioni offerte dall'interfaccia, non accedendovi in modo diretto. 
+int main() {
+    try {
+// Sperimentiamo che l'information hinding funziona: cosa succede se tento di accedere alle componenti interne di una struttura di tipo node, oppure di un elemento di una lista (che e' un puntatore a node)? Decommentate le seguenti linee di codice per convincervi che dal main non si puo' accedere alle componenti di una struct node. E' proprio quello che vogliamo! Abbiamo nascosto il dettaglio implementativo di come sono fatti i blocchetti delle liste! Possiamo solo manipolare le liste usando le funzioni offerte dall'interfaccia, non accedendovi in modo diretto.
 
-/*
-list::node s;
-s.elem=3;
+        /*
+        list::node s;
+        s.elem=3;
 
-list::List lista;
-lista->elem = 8;
-*/
+        list::List lista;
+        lista->elem = 8;
+        */
 
-vector<list::List> v(maxreg); // creo i registri
-for (int j=0; j<maxreg; ++j)  // inizializzo i registri in modo che tutti contengano all'inizio la lista vuota
-   list::createEmpty(v[j]);
+        vector<list::List> v(maxreg); // creo i registri
+        for (int j=0; j<maxreg; ++j)  // inizializzo i registri in modo che tutti contengano all'inizio la lista vuota
+            list::createEmpty(v[j]);
 
-list::Elem e;
-int i, pos;
-string nome_file;
+        list::Elem e;
+        int i, pos;
+        string nome_file;
 
-cout << menu;
-cout << "\nDigitare p per stampare il menu, q per terminare\n> ";
-char ch;
-cin >> ch;
-while (ch!='q')
-{
-   switch(ch)
-   {
-   case 'a':
-   cin >> nome_file;
-   if (!cin) throw runtime_error("Errore inserimento nome file\n");
-   cin >> i;
-   if (i<0 || i>=maxreg) {cout << "\nIndice fuori range\n"; break;}
-   readFromFile(nome_file, v[i]);
-   print(v[i]);
-   break;
-
-
-   case 'b':
-   cin >> i;
-   if (i<0 || i>=maxreg) {cout << "\nIndice fuori range\n"; break;}
-   readFromStdin(v[i]);
-   print(v[i]);
-   break;
+        cout << menu;
+        cout << "\nDigitare p per stampare il menu, q per terminare\n> ";
+        char ch;
+        cin >> ch;
+        while (ch!='q') {
+            switch(ch) {
+            case 'a':
+                cin >> nome_file;
+                if (!cin) throw runtime_error("Errore inserimento nome file\n");
+                cin >> i;
+                if (i<0 || i>=maxreg) {
+                    cout << "\nIndice fuori range\n";
+                    break;
+                }
+                readFromFile(nome_file, v[i]);
+                print(v[i]);
+                break;
 
 
-   case 'c':
-   cin >> e >> i;
-   if (i<0 || i>=maxreg) {cout << "\nIndice fuori range\n"; break;}
-   list::addRear(e, v[i]);
-   print(v[i]);
-   break;
-
-  
-   case 'd':
-   cin >> e >> i;
-   if (i<0 || i>=maxreg) {cout << "\nIndice fuori range\n"; break;}
-   list::addFront(e, v[i]);
-   print(v[i]);
-   break;
+            case 'b':
+                cin >> i;
+                if (i<0 || i>=maxreg) {
+                    cout << "\nIndice fuori range\n";
+                    break;
+                }
+                readFromStdin(v[i]);
+                print(v[i]);
+                break;
 
 
-   case 'e':
-   cin >> pos >> e >> i;
-   if (i<0 || i>=maxreg) {cout << "\nIndice fuori range\n"; break;}
-   list::add(pos, e, v[i]);
-   print(v[i]);
-   break;
+            case 'c':
+                cin >> e >> i;
+                if (i<0 || i>=maxreg) {
+                    cout << "\nIndice fuori range\n";
+                    break;
+                }
+                list::addRear(e, v[i]);
+                print(v[i]);
+                break;
 
-   case 'f':
-   cin >> pos >> e >> i;
-   if (i<0 || i>=maxreg) {cout << "\nIndice fuori range\n"; break;}
-   list::set(pos, e, v[i]);
-   print(v[i]);
-   break;
 
-   case 'g':
-   cin >> pos >> i;
-   if (i<0 || i>=maxreg) {cout << "\nIndice fuori range\n"; break;}
-   e = list::get(pos, v[i]);
-   if (e == list::EMPTYELEM) 
-      cout << "\nNon esiste la posizione " << pos << " nella lista in posizione " << i << "\n";
-   else 
-      cout << "\nL'elemento in posizione " << pos << " nella lista in posizione " << i << " e' " << e << endl;
-   print(v[i]);
-   break;
+            case 'd':
+                cin >> e >> i;
+                if (i<0 || i>=maxreg) {
+                    cout << "\nIndice fuori range\n";
+                    break;
+                }
+                list::addFront(e, v[i]);
+                print(v[i]);
+                break;
 
-   case 'h':
-   cin >> pos >> i;
-   if (i<0 || i>=maxreg) {cout << "\nIndice fuori range\n"; break;}
-   list::removePos(pos, v[i]);
-   print(v[i]);
-   break;
 
-   case 'i':
-   cin >>  e >> i;
-   if (i<0 || i>=maxreg) {cout << "\nIndice fuori range\n"; break;}
-   list::removeEl(e, v[i]);
-   print(v[i]);
-   break;
+            case 'e':
+                cin >> pos >> e >> i;
+                if (i<0 || i>=maxreg) {
+                    cout << "\nIndice fuori range\n";
+                    break;
+                }
+                list::add(pos, e, v[i]);
+                print(v[i]);
+                break;
 
-   case 'l':
-   cin >> i;
-   if (i<0 || i>=maxreg) {cout << "\nIndice fuori range\n"; break;}
-   if (list::isEmpty(v[i])) 
-      cout << "\nLa lista in posizione " << i << " e' vuota\n";
-   else 
-      {cout << "\nLa lista in posizione " << i << " non e' vuota\n"; print(v[i]);}
-   break;
+            case 'f':
+                cin >> pos >> e >> i;
+                if (i<0 || i>=maxreg) {
+                    cout << "\nIndice fuori range\n";
+                    break;
+                }
+                list::set(pos, e, v[i]);
+                print(v[i]);
+                break;
 
-   case 'm':
-   cin >> i;
-   if (i<0 || i>=maxreg) {cout << "\nIndice fuori range\n"; break;}
-   cout << "\nLa dimensione della lista in posizione " << i << " e' " << list::size(v[i]) << endl;
-   print(v[i]);
-   break;
+            case 'g':
+                cin >> pos >> i;
+                if (i<0 || i>=maxreg) {
+                    cout << "\nIndice fuori range\n";
+                    break;
+                }
+                e = list::get(pos, v[i]);
+                if (e == list::EMPTYELEM)
+                    cout << "\nNon esiste la posizione " << pos << " nella lista in posizione " << i << "\n";
+                else
+                    cout << "\nL'elemento in posizione " << pos << " nella lista in posizione " << i << " e' " << e << endl;
+                print(v[i]);
+                break;
 
-   case 'n':
-   cin >> i;
-   if (i<0 || i>=maxreg) {cout << "\nIndice fuori range\n"; break;}
-   list::clear(v[i]);
-   break;
+            case 'h':
+                cin >> pos >> i;
+                if (i<0 || i>=maxreg) {
+                    cout << "\nIndice fuori range\n";
+                    break;
+                }
+                list::removePos(pos, v[i]);
+                print(v[i]);
+                break;
 
-   case 'o':
-   cin >> i;
-   if (i<0 || i>=maxreg) {cout << "\nIndice fuori range\n"; break;}
-   print(v[i]);
-   break;
+            case 'i':
+                cin >>  e >> i;
+                if (i<0 || i>=maxreg) {
+                    cout << "\nIndice fuori range\n";
+                    break;
+                }
+                list::removeEl(e, v[i]);
+                print(v[i]);
+                break;
 
-   case 'r':
-   for (int i=0; i<maxreg; ++i)
-       {
-        cout << "\nLista in posizione " << i << ": ";
-        print(v[i]);
-       }
-   break;
+            case 'l':
+                cin >> i;
+                if (i<0 || i>=maxreg) {
+                    cout << "\nIndice fuori range\n";
+                    break;
+                }
+                if (list::isEmpty(v[i]))
+                    cout << "\nLa lista in posizione " << i << " e' vuota\n";
+                else {
+                    cout << "\nLa lista in posizione " << i << " non e' vuota\n";
+                    print(v[i]);
+                }
+                break;
 
-   case 'p': 
-   cout << menu;
-   break;
+            case 'm':
+                cin >> i;
+                if (i<0 || i>=maxreg) {
+                    cout << "\nIndice fuori range\n";
+                    break;
+                }
+                cout << "\nLa dimensione della lista in posizione " << i << " e' " << list::size(v[i]) << endl;
+                print(v[i]);
+                break;
 
-   default: 
-   cout << "\nOpzione non valida\n";
-   }
+            case 'n':
+                cin >> i;
+                if (i<0 || i>=maxreg) {
+                    cout << "\nIndice fuori range\n";
+                    break;
+                }
+                list::clear(v[i]);
+                break;
 
-cout << "\nDigitare p per stampare il menu, q per terminare\n> ";
-cin >> ch;
-}
-return 0;
-} 
-catch (runtime_error &msg) 
-   {cerr << "Errore a runtime: " << msg.what() << endl;} 
-catch (...) 
-   {cerr << "Eccezione non riconosciuta\n";}
+            case 'o':
+                cin >> i;
+                if (i<0 || i>=maxreg) {
+                    cout << "\nIndice fuori range\n";
+                    break;
+                }
+                print(v[i]);
+                break;
+
+            case 'r':
+                for (int i=0; i<maxreg; ++i) {
+                    cout << "\nLista in posizione " << i << ": ";
+                    print(v[i]);
+                }
+                break;
+
+            case 'p':
+                cout << menu;
+                break;
+
+            default:
+                cout << "\nOpzione non valida\n";
+            }
+
+            cout << "\nDigitare p per stampare il menu, q per terminare\n> ";
+            cin >> ch;
+        }
+        return 0;
+    } catch (runtime_error &msg) {
+        cerr << "Errore a runtime: " << msg.what() << endl;
+    } catch (...) {
+        cerr << "Eccezione non riconosciuta\n";
+    }
 }
 

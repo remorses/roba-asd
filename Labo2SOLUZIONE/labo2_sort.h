@@ -1,4 +1,4 @@
-#include <vector> 
+#include <vector>
 #include <stdlib.h>     // srand, rand, per quickSortRandom() da implementare
 
 using namespace std;

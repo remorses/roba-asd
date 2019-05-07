@@ -14,8 +14,7 @@ typedef nodo *nodoPtr;
 
 
 /****************************************************************/
-Error dict::deleteElem(const Key k, Dictionary& s)
-{
+Error dict::deleteElem(const Key k, Dictionary& s) {
     // Non implementata: potete implementarla voi per esercizio
     cout << "La deleteElem non e' ancora implementata... potete implementarla voi per esercizio!\n";
     return FAIL;
@@ -23,10 +22,12 @@ Error dict::deleteElem(const Key k, Dictionary& s)
 
 
 /****************************************************************/
-Dictionary readFromFile(string nome_file)
-{
+Dictionary readFromFile(string nome_file) {
     ifstream ifs(nome_file.c_str()); // apertura di uno stream associato ad un file, in lettura
-    if (!ifs) {cout << "\nErrore apertura file, verificare di avere inserito un nome corretto\n"; return createEmptyDict();}  
+    if (!ifs) {
+        cout << "\nErrore apertura file, verificare di avere inserito un nome corretto\n";
+        return createEmptyDict();
+    }
     // cout << "\n[dict::readFromFile] Apertura file completata\n";
     return readFromStream(ifs);
 }
@@ -34,8 +35,7 @@ Dictionary readFromFile(string nome_file)
 
 
 /****************************************************************/
-Dictionary readFromStdin()
-{
+Dictionary readFromStdin() {
     cout << "\nInserire una sequenza di linee che rispettano la sintassi key: value.<enter>\nDigitare CTRL^ D per terminare l'inserimento\n";
     Dictionary d = readFromStream((std::cin));
 // Questa serve per aggirare un bug di alcune versioni attuali di glibc.
@@ -45,21 +45,19 @@ Dictionary readFromStdin()
 
 
 /****************************************************************/
-Dictionary readFromStream(istream& str)
-{
-    Dictionary d = createEmptyDict();      
+Dictionary readFromStream(istream& str) {
+    Dictionary d = createEmptyDict();
     string key, kcopy;
     string value;
     getline (str, key, ':'); // cout << "\n[readFromStream] key: " << key;
     getline (str, value); // cout << "\n[readFromStream] value: " << value;
-    while (!str.eof())  
-        {         
+    while (!str.eof()) {
         kcopy = key;
         removeBlanksAndLower(kcopy);
         insertElem(kcopy, value, d);
-        getline (str, key, ':'); 
-        getline (str, value); 
-        }
+        getline (str, key, ':');
+        getline (str, value);
+    }
     str.clear();
     return d;
 }
@@ -67,8 +65,7 @@ Dictionary readFromStream(istream& str)
 
 /****************************************************************/
 // Inizializzazione della lista con creazione del nodo sentinella; obbligatorio dopo la dichiarazione di una lista
-Dictionary dict::createEmptyDict()
-{
+Dictionary dict::createEmptyDict() {
     // Crea il nodo sentinella
     nodoPtr l = new nodo;
     // Concatenalo circolarmente a se stesso
@@ -79,9 +76,8 @@ Dictionary dict::createEmptyDict()
 
 
 /****************************************************************/
-// Inserimento di un record prima del nodo puntato da p 
-void inserisci_prima(nodoPtr &p, Key k, Value v)
-{
+// Inserimento di un record prima del nodo puntato da p
+void inserisci_prima(nodoPtr &p, Key k, Value v) {
     nodoPtr q = new nodo;
     (q->elem).key = k;
     (q->elem).value = v;
@@ -93,18 +89,17 @@ void inserisci_prima(nodoPtr &p, Key k, Value v)
 
 /****************************************************************/
 // Restituisce il puntatore al primo nodo nella lista che contiene una chiave >= k nella lista
-nodoPtr maggiore_o_uguale(Key k, const Dictionary& s){
+nodoPtr maggiore_o_uguale(Key k, const Dictionary& s) {
     // "salta la sentinella" e va alla testa della lista
     nodoPtr q = s->prossimo;
     // avanza finche' non finisce la lista o non trovi una chiave >= k
     while (q != s && (q->elem).key < k )
-	q = q->prossimo;
+        q = q->prossimo;
     return q;
 }
 
 /****************************************************************/
-Error dict::insertElem(const Key k, const Value v,  Dictionary& s)
-{
+Error dict::insertElem(const Key k, const Value v,  Dictionary& s) {
     if (search(k, s) != emptyValue) return FAIL; // l'elemento e' gia' presente nel dizionario, non lo ri-inserisco
 
     // Cerco dove inserire n
@@ -116,8 +111,7 @@ Error dict::insertElem(const Key k, const Value v,  Dictionary& s)
 
 
 /****************************************************************/
-Value dict::search(const Key k, const Dictionary& s)
-{
+Value dict::search(const Key k, const Dictionary& s) {
     nodoPtr last = s->precedente;
     if (last == s) return emptyValue; // il dizionario e' vuoto
     else if ((last->elem).key < k) return emptyValue; // il dizionario contiene tutte chiavi < k (l'ultimo elemento e' < k)
@@ -126,22 +120,20 @@ Value dict::search(const Key k, const Dictionary& s)
     nodoPtr q = s->prossimo;
     // avanza finche' non finisce la lista o non trovi una chiave >= k
     while (q != s && (q->elem).key < k )
-	q = q->prossimo;
+        q = q->prossimo;
 
     if (q==s || (q->elem).key < k) return emptyValue;
-    else if ((q->elem).key == k) return (q->elem).value; 
+    else if ((q->elem).key == k) return (q->elem).value;
 
     return emptyValue;
 }
 
 
 /****************************************************************/
-void print(const Dictionary& s)
-{
+void print(const Dictionary& s) {
     // "salta la sentinella" e va alla testa della lista
     nodoPtr q = s->prossimo;
-    while (q != s) // avanza finche' non finisce la lista
-    {
+    while (q != s) { // avanza finche' non finisce la lista
         cout << (q->elem).key << ": " << (q->elem).value << endl;
         q = q->prossimo;
     }

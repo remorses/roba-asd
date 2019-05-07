@@ -1,13 +1,13 @@
 #include <cstddef> // serve per il NULL
 #include <iostream>
 #include <stdexcept>
-#include <vector> 
-#include <fstream> 
+#include <vector>
+#include <fstream>
 
 using namespace std;
 
 // Implementa STACK con strutture collegate semplicemente mediante puntatori e tipo base Elem dotato di ordinamento
-namespace stack{
+namespace stack {
 
 typedef int Elem;
 struct cell;

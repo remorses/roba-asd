@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdexcept>
-#include <vector> 
-#include <fstream> 
+#include <vector>
+#include <fstream>
 #include <chrono>          // necessario compilare con -std=c++11
 #include <stdlib.h>        // srand, rand
 #include <string>          // std::string
@@ -10,8 +10,8 @@
 
 #define USE_HASH_TABLE = true;
 
-using namespace std::chrono; 
-using namespace std; 
+using namespace std::chrono;
+using namespace std;
 
 namespace dict {
 
@@ -23,8 +23,8 @@ enum Error {OK, FAIL};
 
 const int tableDim = 1000; // da modificare per fare esperimenti diversi
 
-typedef string Key;        // tipo base 
-typedef string Value;      // tipo base 
+typedef string Key;        // tipo base
+typedef string Value;      // tipo base
 
 const Key emptyKey = "###RESERVED KEYWORD### EMPTY KEY";
 const Value emptyValue = "###RESERVED KEYWORD### EMPTY VALUE";
@@ -64,7 +64,7 @@ typedef vector<Elem> Dictionary;
 
 
 #if !defined(USE_HASH_TABLE) && !defined(USE_ORDERED_LIST) && !defined(USE_ORDERED_VECTOR)
-    #error "Must specify USE_HASH_TABLE or USE_ORDERED_LIST or USE_ORDERED_VECTOR"
+#error "Must specify USE_HASH_TABLE or USE_ORDERED_LIST or USE_ORDERED_VECTOR"
 #endif
 
 

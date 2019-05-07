@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////
 //
-// Laboratorio 4: calcolo di semplici espressioni numeriche 
+// Laboratorio 4: calcolo di semplici espressioni numeriche
 //                mediante pile e code
 //
 // vengono accettati dall'esterno solo numeri positivi.
@@ -28,11 +28,12 @@ using std::ostringstream;
 /////////////////////////////////////////////////////////////////////
 
 enum kind {PARENTESI_APERTA, PARENTESI_CHIUSA, NUMERO, OP_SOMMA,
-OP_SOTTRAZIONE, OP_MOLTIPLICAZIONE, SCONOSCIUTO, VUOTO};
+           OP_SOTTRAZIONE, OP_MOLTIPLICAZIONE, SCONOSCIUTO, VUOTO
+          };
 
 struct token {
-  string val;
-  kind k;
+    string val;
+    kind k;
 };
 
 /////////////////////////////////////////////////////////////////////

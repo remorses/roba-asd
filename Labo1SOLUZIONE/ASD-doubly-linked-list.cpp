@@ -6,50 +6,45 @@
 using namespace list;
 
 struct list::node {  // descrivo qui, fuori dal namespace, come e' fatta la struttura node: i dettagli interni non saranno visibili dal main
-Elem info;
-node *prev;
-node *next;
+    Elem info;
+    node *prev;
+    node *next;
 };
 
 /*************************************************/
 /* Implementazione delle operazioni di utilita'  */
 /*************************************************/
 
-void readFromStream(istream& str, List& l)
-{
+void readFromStream(istream& str, List& l) {
     createEmpty(l);
     Elem e;
     str>>e;
     if (!str) throw runtime_error("Errore inserimento dati\n");
-    while (e != FINEINPUT)  // assumiamo che il segnale di fine input nel file sia  FINEINPUT
-        {     
+    while (e != FINEINPUT) { // assumiamo che il segnale di fine input nel file sia  FINEINPUT
         addRear(e, l);   // aggiunge l'elemento alla fine della lista
         str>>e;
         if (!str) throw runtime_error("Errore inserimento dati\n");
-        }
+    }
 }
 
-void readFromFile(string nome_file, List& l)  /* legge il contenuto di una lista da file */
-{
+void readFromFile(string nome_file, List& l) { /* legge il contenuto di una lista da file */
     ifstream ifs(nome_file.c_str()); // apertura di uno stream associato ad un file, in lettura
     readFromStream(ifs, l);
 }
 
 
 
-void readFromStdin(List& l)         /* legge il contenuto di una lista da standard input */
-{
-   cout << "\nInserire una sequenza di numeri separati da spazi seguiti da " << FINEINPUT << " per terminare\n";
-   readFromStream((std::cin), l);
+void readFromStdin(List& l) {       /* legge il contenuto di una lista da standard input */
+    cout << "\nInserire una sequenza di numeri separati da spazi seguiti da " << FINEINPUT << " per terminare\n";
+    readFromStream((std::cin), l);
 }
 
 
-void print(const List& l)           /* stampa la lista */
-{
+void print(const List& l) {         /* stampa la lista */
     List q = l->next;  // q "salta la sentinella" e va alla testa della lista
     while (q != l) {   // avanza finche' non finisce la lista
         cout << q->info << "; ";
-        q = q->next; 
+        q = q->next;
     }
 }
 
@@ -59,8 +54,7 @@ void print(const List& l)           /* stampa la lista */
 // NOTA: se "e" non esiste nella lista, la funzione restituisce il puntatore
 // alla sentinella.
 
-List searchElemPointer(Elem e, List l)
-{
+List searchElemPointer(Elem e, List l) {
     // "salta la sentinella" e vai alla testa della lista,
     // poi avanza finche' non finisce il giro o non trovi l'elem cercato
     List q = l->next;
@@ -75,16 +69,15 @@ List searchElemPointer(Elem e, List l)
 // Se invece la posizione non esiste, restituisce il puntatore alla sentinella
 // e "pos" viene modificato, diventando uguale al numero di elem nella lista.
 
-List searchPositionPointer(int &pos, List l)
-{
+List searchPositionPointer(int &pos, List l) {
     // "salta la sentinella" e vai alla testa della lista,
     // poi avanza finche' non trovi la posizione cercata o non finisce il giro
 
     List q = l->next;
     int counter = 0;
     while (q != l && counter < pos) {
-        q = q->next; 
-        ++counter;    
+        q = q->next;
+        ++counter;
     }
 
     // a questo punto "counter" e' uguale a "pos" se la posizione esiste,
@@ -98,8 +91,7 @@ List searchPositionPointer(int &pos, List l)
 
 // Inserisce un nuovo elemento subito prima del nodo puntato da "p"
 
-void insertBeforePointer(Elem e, const List& p)
-{
+void insertBeforePointer(Elem e, const List& p) {
     List q = new node;
     q->info = e;
     q->prev = p->prev;
@@ -116,8 +108,7 @@ void insertBeforePointer(Elem e, const List& p)
 
 /* "smantella" la lista svuotandola */
 
-void list::clear(const List& l)
-{
+void list::clear(const List& l) {
     List aux;
 
     // "salta la sentinella" e vai alla testa della lista,
@@ -125,7 +116,7 @@ void list::clear(const List& l)
     List q = l->next;
     while (q != l) {
         aux = q;
-        q = q->next; 
+        q = q->next;
         delete aux;
     }
     // lista svuotata.  sentinella punta a se stessa.
@@ -138,8 +129,7 @@ void list::clear(const List& l)
 // altrimenti restituisce un elemento che per convenzione rappresenta
 // l'elemento nullo.
 
-Elem list::get(int pos, const List& l)
-{
+Elem list::get(int pos, const List& l) {
     if (pos < 0) return EMPTYELEM;
 
     // vai alla posizione "pos"
@@ -157,8 +147,7 @@ Elem list::get(int pos, const List& l)
 
 // modifica l'elemento in posizione "pos", se la posizione esiste
 
-void list::set(int pos, Elem e, const List& l)
-{
+void list::set(int pos, Elem e, const List& l) {
     if (pos < 0) return;
 
     // vai alla posizione "pos"
@@ -176,8 +165,7 @@ void list::set(int pos, Elem e, const List& l)
 // inserisce un nuovo elemento in posizione "pos",
 // facendo scorrere a valle gli elementi da "pos" in giu'.
 
-void list::add(int pos, Elem e, const List& l)
-{                                               
+void list::add(int pos, Elem e, const List& l) {
     if (pos < 0) return;
 
     // qui c'e' un aspetto delicato da implementare:
@@ -225,24 +213,21 @@ void list::add(int pos, Elem e, const List& l)
 
 // inserisce un nuovo elemento alla fine della lista
 
-void list::addRear(Elem e,  const List& l)
-{
+void list::addRear(Elem e,  const List& l) {
     insertBeforePointer(e, l);
 }
 
 
 // inserisce un nuovo elemento all'inizio della lista
 
-void list::addFront(Elem e, const List& l)
-{
+void list::addFront(Elem e, const List& l) {
     insertBeforePointer(e, l->next);
 }
 
 
 // cancella dalla lista l'elemento in posizione "pos", se esiste
 
-void list::removePos(int pos, const List& l)
-{
+void list::removePos(int pos, const List& l) {
     if (pos < 0) return;
 
     // vai alla posizione "pos"
@@ -263,8 +248,7 @@ void list::removePos(int pos, const List& l)
 
 // cancella dalla lista tutte le occorrenze del valore "e"
 
-void list::removeEl(Elem e, const List& l)
-{
+void list::removeEl(Elem e, const List& l) {
     List q = l->next;
 
     while (q != l)
@@ -282,16 +266,14 @@ void list::removeEl(Elem e, const List& l)
 // restituisce true se e solo se la lista e' vuota
 // (ed e' vuota se il next di l, e' l stessa
 
-bool list::isEmpty(const List& l)
-{
+bool list::isEmpty(const List& l) {
     return (l->next == l);
 }
 
 
 // restituisce la dimensione della lista
 
-int list::size(const List& l)
-{
+int list::size(const List& l) {
 
 // "salta la sentinella" e vai alla testa della lista,
 // poi avanza finche' non finisce il giro, e man mano incrementa un contatore.
@@ -308,8 +290,7 @@ int list::size(const List& l)
 
 // crea la lista vuota
 
-void list::createEmpty(List& l)
-{
+void list::createEmpty(List& l) {
     // Crea il nodo sentinella
     l = new node;
     // Concatenalo circolarmente a se stesso

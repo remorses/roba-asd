@@ -3,22 +3,22 @@
 #include <cstddef> // serve per il NULL
 #include <iostream>
 #include <stdexcept>
-#include <vector> 
-#include <fstream> 
+#include <vector>
+#include <fstream>
 
 using namespace std;
 
 
-namespace list{
+namespace list {
 
-struct node; // forward declaration: dichiaro che usero' una struct, ma non voglio far vedere come e' fatta dentro; la implementero' nel file listaASD-doubly-linked-list_aux.cpp; e' macchinoso ma e' il meglio di information hiding che possiamo ottenere in C++: i linguaggi a oggetti nascono per superare queste "macchinosita'"! 
+struct node; // forward declaration: dichiaro che usero' una struct, ma non voglio far vedere come e' fatta dentro; la implementero' nel file listaASD-doubly-linked-list_aux.cpp; e' macchinoso ma e' il meglio di information hiding che possiamo ottenere in C++: i linguaggi a oggetti nascono per superare queste "macchinosita'"!
 typedef int Elem;   // gli elementi della lista sono degli int; astraggo mediante un typedef
 typedef node* List; // List e' il tipo "puntatore a node", dove node e' la struct dichiarata ma non definita
 const int FINEINPUT = -1000000;
 const int EMPTYELEM = -1000000;
 
 
-/* Nota: l'implementazione con strutture con sentinella ci consentirebbe di passare sempre la lista per valore (o per const reference) in quanto il puntatore alla sentinella, una volta creata la lista, non cambia piu'. Per come sono state implementate le funzioni ausiliarie nella soluzione preparata dai docenti, tuttavia, E' opportuno passare la lista per riferimento. Lasciamo quindi il prototipo delle funzioni che, dal punto di vista logico, modificano la lista (anche se non modificano l'indirizzo della sentinella) con passaggio della lista per riferimento) */ 
+/* Nota: l'implementazione con strutture con sentinella ci consentirebbe di passare sempre la lista per valore (o per const reference) in quanto il puntatore alla sentinella, una volta creata la lista, non cambia piu'. Per come sono state implementate le funzioni ausiliarie nella soluzione preparata dai docenti, tuttavia, E' opportuno passare la lista per riferimento. Lasciamo quindi il prototipo delle funzioni che, dal punto di vista logico, modificano la lista (anche se non modificano l'indirizzo della sentinella) con passaggio della lista per riferimento) */
 void clear(const List&);                 /* "smantella" la lista (tranne la sentinella) */
 Elem get(int, const List&);        	 /* restituisce l'elemento in posizione pos */
 void set(int, Elem, const List&);        /* modifica l'elemento in posizione pos */

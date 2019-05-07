@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////
 //
-// Laboratorio 4: calcolo di semplici espressioni numeriche 
+// Laboratorio 4: calcolo di semplici espressioni numeriche
 //                mediante pile e code
 //
 // vengono accettati dall'esterno solo numeri positivi.
@@ -13,19 +13,19 @@
 #include <stdexcept>
 
 #include "token.h"
-	
+
 using namespace std;
 
 // Implementa QUEUE con strutture indicizzate (array dinamici)
- 
-namespace queue{
+
+namespace queue {
 
 const int BLOCKDIM = 1000;
 
 // Gli elementi della QUEUE sono token
-typedef token Elem;       
+typedef token Elem;
 
-struct queue{
+struct queue {
     Elem* queue = new Elem[BLOCKDIM];
     int size = 0;
     int maxsize = BLOCKDIM;
