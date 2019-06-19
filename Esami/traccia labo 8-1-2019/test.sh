@@ -6,6 +6,7 @@ input="
 H1 O2
 H1 O3
 0
-2
-4"
+9
+0
+"
 printf "$input" | ./a.out

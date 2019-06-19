@@ -37,7 +37,7 @@ struct graph::vertexNode {
 
 // Ritorna il puntatore al nodo avente label "l" (se esiste)
 vertexNode* getVertex(Label l, const Graph& g) {
-  for (graph::Graph v = g; v != NULL; v = v->next) {
+  for (graph::Graph v = g; v != nullptr; v = v->next) {
    if (v->label == l) return  v; // trovato, esco
   }
   return NULL; // non trovato
@@ -86,14 +86,49 @@ void printAdjList(Label l, const Graph& g) {
 
 // METTERE QUI EVENTUALI FUNZIONI AUSILIARIE DEL GRAFO
 
-vector<string> dfs(Graph g, vector<string> &visited) {
-    if (g == nullptr) {
+void print(vector<string> v) {
+    cout << "printing" << endl;
+    for (auto x : v) {
+        cout << x << ",\n";
+    }
+    cout << endl;
+}
+
+vector<string> allVertexes(const Graph g) {
+    vector<string> result;
+    for (auto n = g; n != nullptr; n = n->next) {
+        result.push_back(n->label);
+    }
+    return result;
+}
+
+void print(string x) {
+    cout << x << endl;
+}
+
+bool contains(vector<string> v, string elem) {
+    for (auto x : v) {
+        if (x == elem) {
+            return true;
+        }
+    }
+    return false;
+}
+
+vector<string> dfs(const Graph g, Graph node, vector<string> visited) {
+    if (node == nullptr) {
         return visited;
     }
-    if(find(visited.begin(), visited.end(), g->label) != visited.end()) {
-        visited.push_back(g->label);
-        for(auto edge = g->adjList; edge != nullptr; edge = edge->next) {
-            dfs(getVertex(edge->label, g), visited);
+    if(!contains(visited, node->label)) {
+        visited.push_back(node->label);
+        
+        for(auto edge = node->adjList; edge != nullptr; edge = edge->next) {
+            auto next = getVertex(string(edge->label), g);
+            // print(allVertexes(g));
+            // print(next->label);
+            if(!contains(visited, next->label)) {
+                visited = dfs(g, next, visited);
+            }
         }
     }
     return visited;
@@ -162,33 +197,42 @@ bool graph::areAllNodeNamesWellFormed(const Graph& g) {
     return true;   // segnaposto
 }
 
-void print(vector<string> v) {
-    cout << "printing" << endl;
-    for (auto x : v) {
-        cout << x << ",\n";
-    }
-    cout << endl;
-}
 
 // Verifica che il grafo e' connesso
 bool graph::connected(const Graph& g) {
     // COMPLETARE
-    vector<string> x;
-    dfs(g, x);
-    print(x);
+    vector<string> visited = dfs(g, g, {});
+    
+    auto all = allVertexes(g);
+    // print(all);
+    // print(visited);
+    if (visited.size() < all.size())
+        return false;
+    // print(x);
     return true;    // segnaposto
 }
 
 // Verifica che non esistono cappi (cappio = arco che parte e arriva sullo stesso nodo)
 bool graph::noLoops(const Graph& g) {
-    // COMPLETARE
+    for (auto n = g; n != nullptr; n = n->next) {
+        auto edges = n->adjList;
+        for(auto e = edges; e != nullptr; e = e->next) {
+            if (e->label == n->label) return false;
+        }
+    }
     return true;    // segnaposto
 }
+
+string getRegexGroup(string s, string pattern);
 
 // Calcola il numero di atomi di un dato elemento 'c' preso in input
 int graph::computeAtomNumber(char c, const Graph& g) {
     // COMPLETARE
-    return 0;    // segnaposto
+    int count = 0;
+    for (auto n = g; n != nullptr; n = n->next) {
+        if (n->label[0] == c) count += 1;
+    }
+    return count;    // segnaposto
 }
 
 /*******************************************************************************************************/
