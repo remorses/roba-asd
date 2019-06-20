@@ -1,7 +1,9 @@
 #include "graph.h"
 #include <iostream>
+#include <vector>
 
 using namespace graph;
+using namespace std;
 
 
 // il tipo Graph e' stato definito come puntatore al seguente struct,
@@ -89,6 +91,14 @@ bool graph::addEdge(Graph &g, Label l1, Label l2) {
 
 void graph::print(const Graph &g) {
     // DA IMPLEMENTARE
+    for(int i = 0; i < g->size; i++) {
+	cout << g->vertices[i] << ": ";
+	for (int j=0; j < g->size; j++) {
+		int value = g->adj[i][j];
+		if (value!=0) cout << g->vertices[j] << ", ";
+	}
+	cout << endl;
+    }
     return;
 }
 
@@ -97,9 +107,19 @@ void graph::print(const Graph &g) {
 // identificato dalla sua etichetta, e restituirlo come risultato.
 // se il vertice non e' presente nel grafo, la funzione restituisce -1.
 
+
+
 int graph::numFriendsDirect(const Graph &g, Label l) {
     // DA IMPLEMENTARE
-    return 0;
+    int count = 0;
+    int index = lookup(g, l);
+    if (index == -1) return 0;
+    for (int i=0; i < g->size; i++) {
+	if (g->adj[index][i] != 0) {
+		count += 1;
+	}
+    }
+    return count;
 }
 
 // conteggio dei vertici entro la distanza specificata dal parametro.
@@ -108,9 +128,33 @@ int graph::numFriendsDirect(const Graph &g, Label l) {
 // se il vertice di partenza non e' presente nel grafo, la funzione
 // restituisce -1.
 
-int graph::numFriendsAtDistance
-(const Graph &g, Label l, unsigned int distance)
-{
+bool contains(vector<int> v, int i) {
+	for (int a : v) {
+		if (a==i) return true;
+	}
+	return false;
+}
+
+int aux(Graph g, int index, unsigned int distance, int count, vector<int> &visited) {
+	if (distance > 0) {
+		if(contains(visited, index)) return count - 1;
+		visited.push_back(index);
+		for (int i=0; i < g->size; i++) {
+			if (g->adj[index][i] != 0 && !contains(visited, i)) {
+				count = aux(g, i, distance - 1, count + 1, visited);
+			}
+		}
+		return count;
+	} else {
+		return count;
+	}
+}
+
+int graph::numFriendsAtDistance(const Graph &g, Label l, unsigned int distance) {
     // DA IMPLEMENTARE
-    return 0;
+    
+    int index = lookup(g, l);
+    if (index == -1) return -1;
+    vector<int> visited;
+    return aux(g, index, distance, 0, visited);
 }
