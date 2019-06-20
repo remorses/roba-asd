@@ -8,9 +8,7 @@ struct Cosa {
 };
 
 int main() {
-    Cosa* a = new Cosa {1};{
-        Cosa* a = new Cosa {2};
-    }
+
     
-    cout << a->x << endl;
+    cout << (bool)"" << endl;
 }

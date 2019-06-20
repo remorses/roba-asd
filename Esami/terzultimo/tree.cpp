@@ -123,15 +123,17 @@ void tree::print(const Tree& t) {
     if (!t) {cout << "Albero vuoto" << endl; return;}    // --- MODIFICARE IL CORPO DELLA FUNZIONE ---
     queue<Tree> q;
     q.push(t);
+    Tree previous = t;
     while(!q.empty()) {
         Tree aux = q.front();
         q.pop();
-        string sx = aux->sx ? aux->sx->label : "";
-        string dx = aux->dx ? aux->dx->label : "";
-        cout << aux->label << " " << sx << " " << dx << endl;
+        if (aux->sx) cout << "S " << aux->label << " " << aux->sx->label << endl;
+        if (aux->dx) cout << "D " << aux->label << " " << aux->dx->label << endl;
         if (aux->sx) q.push(aux->sx);
         if (aux->dx) q.push(aux->dx);
+        previous = aux;
     }
+    cout << 0 << endl;
 }
 
 // Ritorna il numero di terminali isolati. Denominiamo terminale isolato una qualunque foglia, esclusa la radice, priva di "fratelli" (cio� il genitore della foglia non ha altri figli)
@@ -158,12 +160,18 @@ Tree find(const Tree& t, string target, Tree& previous) {
     while(!q.empty()) {
         Tree aux = q.top();
         q.pop();
-        if (aux->label == target) {
-            return aux;
+        if (aux->sx && aux->sx->label == target){
+            q.push(aux->sx);
+            previous = aux;
+            return aux->sx;
+        } 
+        if (aux->dx && aux->dx->label == target){
+            q.push(aux->dx);
+            previous = aux;
+            return aux->dx;
         }
-        if (aux->sx) q.push(aux->sx);
-        if (aux->dx) q.push(aux->dx);
-        previous = aux;
+        if(aux->sx) q.push(aux->sx);
+        if(aux->dx) q.push(aux->dx);
     }
     return nullptr;
 }
@@ -174,9 +182,10 @@ void tree::stampaCammino(Label l, const Tree& t) {
     Tree previous;
     Tree found = find(t, l, previous);
     if (!found) cout << "Non esiste cammino" << endl;     // --- MODIFICARE IL CORPO DELLA FUNZIONE ---
-    cout << found->label << " ";
+    cout << found->label << ", ";
     while (previous->label!=t->label) {
-        cout << previous->label << " ";
+        cout << previous->label << ", ";
         find(t, previous->label, previous);
     }
+    cout << t->label << endl;
 }
