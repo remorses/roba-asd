@@ -9,11 +9,11 @@ using namespace graph;
 
 struct graph::graph_ingredients {
 
-  unsigned int size = 0;    // numero attuale di vertici, inizialmente zero
-  Label vertices[NMAX];     // tabella etichette, dimensione massima
-  int adj[NMAX][NMAX];      // matrice di adiacenza
+    unsigned int size = 0;        // numero attuale di vertici, inizialmente zero
+    Label vertices[NMAX];         // tabella etichette, dimensione massima
+    int adj[NMAX][NMAX];            // matrice di adiacenza
 
-  // e' possibile aggiungere ulteriori ingredienti se ritenuti utili.
+    // e' possibile aggiungere ulteriori ingredienti se ritenuti utili.
 
 };
 
@@ -26,8 +26,13 @@ struct graph::graph_ingredients {
 // se l'etichetta non e' in tabella, la funzione restituisce -1.
 
 int lookup(const Graph &g, Label l) {
-  // DA IMPLEMENTARE (possibilmente in modo furbo)
-  return 0;
+    // DA IMPLEMENTARE (possibilmente in modo furbo)
+    for (int i = 0; i<g->size; i++) {
+        if (g->vertices[i] == l) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 
@@ -35,8 +40,10 @@ int lookup(const Graph &g, Label l) {
 // vertici; il numero massimo e' indicato dalla costante NMAX.
 
 Graph graph::createEmpty() {
-  // DA IMPLEMENTARE; questa qui sotto serve solo come segnaposto ma non funziona
-  return (Graph)nullptr;
+    // DA IMPLEMENTARE; questa qui sotto serve solo come segnaposto ma non funziona
+    Graph g = new graph::graph_ingredients;
+    g->size = 0;
+    return g;
 };
 
 
@@ -46,8 +53,11 @@ Graph graph::createEmpty() {
 // ad inserimento avvenuto.
 
 bool graph::addVertex(Graph &g, Label l) {
-  // DA IMPLEMENTARE
-  return true;
+    // DA IMPLEMENTARE
+    if(lookup(g, l) != -1) return false;
+    g->vertices[g->size] = l;
+    g->size += 1;
+    return true;
 }
 
 
@@ -55,20 +65,31 @@ bool graph::addVertex(Graph &g, Label l) {
 // restituisce false se i due vertici sono gia' collegati da un arco,
 // oppure se uno dei due vertici non e' presente nel grafo, oppure se
 // i due vertici coincidono; in tali casi nessun nuovo arco deve essere
-// inserito.  altrimenti restituisce true ad inserimento avvenuto.
+// inserito.    altrimenti restituisce true ad inserimento avvenuto.
 
 bool graph::addEdge(Graph &g, Label l1, Label l2) {
-  // DA IMPLEMENTARE
-  return true;
+    // DA IMPLEMENTARE
+    int i1 = lookup(g, l1), i2 = lookup(g, l2);
+
+    if(i1 == -1 || i2 == -1 || i1 == i2) {
+        return false;
+    }
+    if (g->adj[i1][i2] != 0 || g->adj[i2][i1] != 0) {
+        return false;
+    }
+    g->adj[i1][i2] = 1;
+    g->adj[i2][i1] = 1;
+    return true;
 }
 
+// qui
 
 // visualizzazione del grafo, elencando, in corrispondenza dell'etichetta di
 // ciascun vertice, l'elenco delle etichette dei vertici ad esso adiacenti.
 
 void graph::print(const Graph &g) {
-  // DA IMPLEMENTARE
-  return;
+    // DA IMPLEMENTARE
+    return;
 }
 
 // conteggio degli amici diretti.
@@ -77,8 +98,8 @@ void graph::print(const Graph &g) {
 // se il vertice non e' presente nel grafo, la funzione restituisce -1.
 
 int graph::numFriendsDirect(const Graph &g, Label l) {
-  // DA IMPLEMENTARE
-  return 0;
+    // DA IMPLEMENTARE
+    return 0;
 }
 
 // conteggio dei vertici entro la distanza specificata dal parametro.
@@ -90,6 +111,6 @@ int graph::numFriendsDirect(const Graph &g, Label l) {
 int graph::numFriendsAtDistance
 (const Graph &g, Label l, unsigned int distance)
 {
-  // DA IMPLEMENTARE
-  return 0;
+    // DA IMPLEMENTARE
+    return 0;
 }
