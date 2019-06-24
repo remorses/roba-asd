@@ -2,14 +2,16 @@
 
 def merge(a: list, b: list):
     result = []
-    while a and b:
-        if b[0] > a[0]:
-            result.append(a[0])
-            a.pop(0)
+    length = len(a) if len(a) < len(b) else len(b)
+    i, j = 0, 0
+    while i < len(a) and j < len(b):
+        if a[i] < b[j]:
+            result.append(a[i])
+            i += 1
         else:
-            result.append(b[0])
-            b.pop(0)
-    return result + a + b
+            result.append(b[j])
+            j += 1
+    return result + a[i:] + b[j:]
 
 
 def mergesort(arr):
