@@ -76,18 +76,18 @@ void priorityQueue::insert(PriorityQ& pq, const Patient &p) {
         pq.size += 1;
         return;
     }
-    // se deve essere il primo della lista
-    if (!isLess(p, pq.list->info)) {
-        pq.list = new Node {p, pq.list};
-        pq.size += 1;
-        return;
-    }
     // scorro fin quando trovo un paziente minore uguale di p, inserisco p
     auto current = pq.list;
     auto previous = current;
     while (current && isLess(p, current->info)) {
         previous = current;
         current = current->next;
+    }
+    // se deve essere il primo della lista
+    if (current == pq.list) {
+        pq.list = new Node {p, pq.list};
+        pq.size += 1;
+        return;
     }
     previous->next = new Node {p, current};
     pq.size += 1;
