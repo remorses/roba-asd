@@ -3,5 +3,6 @@
   "src/test_all.py::test_insertion",
   "src/test_all.py::test_selectionsort",
   "src/test_all.py::test_bubblesort",
-  "src/test_all.py::test_bubblesort2"
+  "src/test_all.py::test_bubblesort2",
+  "src/test_all.py::test_quicksort1"
 ]
