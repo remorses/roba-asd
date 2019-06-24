@@ -1,0 +1,4 @@
+[
+  "src/test_mergesort.py::test_mergesort",
+  "src/test_mergesort.py::test_insertion"
+]
