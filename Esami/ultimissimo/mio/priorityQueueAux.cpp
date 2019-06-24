@@ -24,10 +24,10 @@ using namespace priorityQueue;
 bool isLess(Patient a, Patient b) {
     if (a.triage < b.triage) return true;
     if (a.triage > b.triage) return false;
-    if (a.age < b.age) return true;
-    if (a.age > b.age) return false;
-    if(a.registrationTime < b.registrationTime) return true;
-    if(a.registrationTime > b.registrationTime) return false;
+    if (a.age > b.age) return true;
+    if (a.age < b.age) return false;
+    if(a.registrationTime > b.registrationTime) return true;
+    if(a.registrationTime < b.registrationTime) return false;
     throw "uguale"; // TODO
 }
 
@@ -45,18 +45,71 @@ bool priorityQueue::isEmpty(const PriorityQ& pq) {
 } 
 
 
-void priorityQueue::insert(PriorityQ& pq, const Patient &p) {
-    // se vuota inserisco e basta
-    // scorro fin quando trovo un paziente minore uguale di p, inserisco p
+List insertAt(List l, int position, Patient elem) {
+    int count = 0;
+    auto begin = l;
+    auto previous = l;
+    while (count < position) {
+        if (!l) throw "impossibile";
+        previous = l;
+        l = l->next;
+        count += 1;
+    }
+    auto newNode = new Node {elem, l};
+    if (previous!=l) previous->next = newNode;
+    if (begin==l) begin = newNode;
+    return begin;
 }
 
 
+void append(List& l, Patient elem) {
+        auto next = l->next;
+        auto newNode = new Node {elem, next};
+        l->next = newNode;
+}
+
+
+void priorityQueue::insert(PriorityQ& pq, const Patient &p) {
+    // se vuota inserisco e basta
+    if (isEmpty(pq)) {
+        pq.list = new Node {p, nullptr};
+        pq.size += 1;
+        return;
+    }
+    // se deve essere il primo della lista
+    if (!isLess(p, pq.list->info)) {
+        pq.list = new Node {p, pq.list};
+        pq.size += 1;
+        return;
+    }
+    // scorro fin quando trovo un paziente minore uguale di p, inserisco p
+    auto current = pq.list;
+    auto previous = current;
+    while (current && isLess(p, current->info)) {
+        previous = current;
+        current = current->next;
+    }
+    previous->next = new Node {p, current};
+    pq.size += 1;
+    return;
+}
+
+
+
+
 bool priorityQueue::findMax(const PriorityQ& pq, Patient &res) {
+    if (isEmpty(pq)) return false;
+    res = pq.list->info;
     return true; // segnaposto
 }
 
 
-bool priorityQueue::deleteMax(PriorityQ& pq) {    
+bool priorityQueue::deleteMax(PriorityQ& pq) {
+    if (isEmpty(pq)) return false;
+    auto first = pq.list;
+    pq.list = pq.list->next;
+    delete first;
+    pq.size -= 1;
     return true; // segnaposto
 }
 
@@ -79,8 +132,20 @@ void prettyPrint(Patient p, int startAidTime, int endAidTime) {
         cout << ") entra a t_in=" << startAidTime << " ed esce a t_out=" << endAidTime << endl;
 }
  
+
+
 // FUNZIONE DA IMPLEMENTARE
-void printAidOrder(PriorityQ pq, int startTime) {}
+void printAidOrder(PriorityQ pq, int startTime) {
+    auto l = pq.list;
+    int currentTime = startTime;
+    cout << "Il medico inizia a visitare all'istante " << startTime << endl;
+    while(l) {
+        int exitTime = currentTime + l->info.requiredAidTime;
+        prettyPrint(l->info, currentTime, exitTime);
+        currentTime = exitTime + 1;
+        l = l->next;
+    }
+}
 
 
 PriorityQ readFromFile(string fileName, int& startTime){

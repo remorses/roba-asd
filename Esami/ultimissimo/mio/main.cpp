@@ -10,7 +10,7 @@
 using namespace priorityQueue;
 
 int main() {
-
+  try {
   int startTime = 0, option = 0;
   string fileName;
   PriorityQ pq;
@@ -36,6 +36,10 @@ int main() {
     case 4 : cout << "\nArrivederci\n";
              break;
      }
+  }
+  } catch(char const* e) {
+    cout << e << endl;
+    exit(1);
   }
   return 0;
 }
