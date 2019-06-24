@@ -11,6 +11,10 @@ def merge(a: list, b: list):
         else:
             result.append(b[j])
             j += 1
+    # for k in range(i, len(a)):
+    #     result.append(a[k])
+    # for k in range(j, len(b)):
+    #     result.append(b[k])
     return result + a[i:] + b[j:]
 
 
