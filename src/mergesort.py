@@ -2,7 +2,6 @@
 
 def merge(a: list, b: list):
     result = []
-    length = len(a) if len(a) < len(b) else len(b)
     i, j = 0, 0
     while i < len(a) and j < len(b):
         if a[i] < b[j]:

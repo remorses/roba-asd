@@ -1,0 +1,11 @@
+320  5
+rossi 37 W 100 50
+bianchi 22 R 100 50
+neri 16 R 100 50
+marrone 16 R 110 50 
+giallo 8 R 110 50
+
+
+
+ 
+
