@@ -1,4 +1,5 @@
 [
-  "src/test_mergesort.py::test_mergesort",
-  "src/test_mergesort.py::test_insertion"
+  "src/test_all.py::test_mergesort",
+  "src/test_all.py::test_insertion",
+  "src/test_all.py::test_selectionsort"
 ]
