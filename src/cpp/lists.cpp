@@ -55,7 +55,7 @@ int main() {
         list = insertAt(list, i, i);
     }
     list = insertAt(list, 4, 666);
-    list = insertAt(list, 16, 666);
-    list = insertAt(list, 0, 666);
+    // list = insertAt(list, 16, 666);
+    // list = insertAt(list, 0, 666);
     print(list);
 }

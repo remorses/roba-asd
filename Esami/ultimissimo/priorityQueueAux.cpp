@@ -51,25 +51,25 @@ bool priorityQueue::isEmpty(const PriorityQ& pq) {
 } 
 
 void priorityQueue::insert(PriorityQ& pq, const Patient &p) {
- Node *curr = pq.list;
- Node *prev = EMPTYList;
- 
- if (isEmpty(pq)) {   
-   addPatient(p, curr, prev, pq);
- } else {
-   while (curr != EMPTYList) {
-        if (hasMaxPriority(curr->info, p)) {
-            prev = curr;
-            curr = curr -> next;
-        }
-        else { // abbiamo trovato il posto giusto dove inserire il paziente
-            addPatient(p, curr, prev, pq);
-            return; // ho finito ed esco
-        }
-    } 
-    // se arrivo qui vuole dire che il paziente va inserito in ultima posizione
-    addPatient(p, curr, prev, pq);   
- }
+    Node *curr = pq.list;
+    Node *prev = EMPTYList;
+    
+    if (isEmpty(pq)) {   
+    addPatient(p, curr, prev, pq);
+    } else {
+    while (curr != EMPTYList) {
+            if (hasMaxPriority(curr->info, p)) {
+                prev = curr;
+                curr = curr -> next;
+            }
+            else { // abbiamo trovato il posto giusto dove inserire il paziente
+                addPatient(p, curr, prev, pq);
+                return; // ho finito ed esco
+            }
+        } 
+        // se arrivo qui vuole dire che il paziente va inserito in ultima posizione
+        addPatient(p, curr, prev, pq);   
+    }
 }
 
 bool priorityQueue::findMax(const PriorityQ& pq, Patient &res) {
