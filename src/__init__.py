@@ -5,5 +5,6 @@ from .insertionsort import *
 from .selectionsort import *
 from .bubblesort import *
 from .quicksort import *
+from .bisect import *
 
 
