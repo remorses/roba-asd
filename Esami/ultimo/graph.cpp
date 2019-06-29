@@ -119,17 +119,18 @@ vector<string> dfs(const Graph g, Graph node, vector<string> visited) {
     if (node == nullptr) {
         return visited;
     }
-    if(!contains(visited, node->label)) {
-        visited.push_back(node->label);
-        
-        for(auto edge = node->adjList; edge != nullptr; edge = edge->next) {
-            auto next = getVertex(string(edge->label), g);
-            // print(allVertexes(g));
-            // print(next->label);
-            if(!contains(visited, next->label)) {
-                visited = dfs(g, next, visited);
-            }
-        }
+    if(contains(visited, node->label)) {
+        return visited;
+    }
+    visited.push_back(node->label);
+    
+    for(auto edge = node->adjList; edge != nullptr; edge = edge->next) {
+        auto next = getVertex(string(edge->label), g);
+        // print(allVertexes(g));
+        // print(next->label);
+        // if(!contains(visited, next->label)) {
+        visited = dfs(g, next, visited);
+        // }
     }
     return visited;
 }
