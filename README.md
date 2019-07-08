@@ -39,6 +39,18 @@ List insertAt(List list, int position, int e) {
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
 template <class F>
 List removeIf(List l, F function) {
     auto begin = l;
