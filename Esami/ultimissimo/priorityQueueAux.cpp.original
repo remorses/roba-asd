@@ -13,11 +13,35 @@ const List EMPTYList = NULL; // la size della coda e' zero
 
 // Funzioni ausiliarie che non appartengono al TDD 
 
+// calcola la priorita' maggiore secondo la definizione data
+bool hasMaxPriority(const Patient &p1, const Patient &p2) {
+  if (p1.triage > p2.triage)
+    return true; 
+  else if (p1.triage < p2.triage)
+         return false;
 
+  if (p1.age < p2.age)
+    return true; 
+    else  if (p1.age > p2.age)
+          return false;
+
+  return (p1.registrationTime < p2.registrationTime);
+}
+
+// aggiunge il paziente
+void addPatient(const Patient &p, Node *curr, Node *prev, PriorityQ& pq) {
+    Node *aux = new Node; 
+    aux->info = p;
+    aux->next = curr;
+    if (prev != EMPTYList) 
+        prev->next = aux;
+    else
+        pq.list = aux;
+    pq.size++;
+}
             
 // Funzioni del TDD PriorityQ
 
-namespace priorityQueue {
 // operazioni standard del TDD PriorityQ
 PriorityQ createEmptyPQ() {
     return EMPTYPriorityQ;
@@ -27,7 +51,7 @@ PriorityQ createEmptyPQ() {
 bool isEmpty(const PriorityQ& q) {
     return q.size == 0;
 }
-void insert(PriorityQ& pq, const Patient& p) {
+void insert(PriorityQ& q, const Patient& p) {
     return;
 }
 bool deleteMax(PriorityQ& q) {
@@ -37,7 +61,6 @@ bool findMax(const PriorityQ& q, Patient& p) {
     return true;
 }
 
-}
 
 // Funzioni presenti nell'header ma non definite nel TDD 
 
